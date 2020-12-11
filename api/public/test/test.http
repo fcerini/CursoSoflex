@@ -1,0 +1,20 @@
+
+####
+GET http://localhost:8080/curso-soflex_api/index.php/cliente
+####
+GET http://localhost:8080/curso-soflex_api/index.php/producto
+####
+GET http://localhost:8080/curso-soflex_api/index.php/pedido
+####
+GET http://localhost:8080/curso-soflex_api/index.php/detalle-pedido
+####
+
+
+POST http://localhost:8080/curso-soflex_api/index.php/cliente HTTP/1.1
+content-type: application/json; charset=UTF-8
+
+data = {
+    "clienNombre": "Cliente Test 1",
+    "clienDireccion": "Direccion de test"
+}
+

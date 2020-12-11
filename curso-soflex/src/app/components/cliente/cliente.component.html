@@ -1,0 +1,89 @@
+<div *ngIf="!formularioOpen" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let cliente"> {{cliente.clienId}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+            <td mat-cell *matCellDef="let cliente"> {{cliente.clienNombre}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="direccion">
+            <th mat-header-cell *matHeaderCellDef> Direccion </th>
+            <td mat-cell *matCellDef="let cliente"> {{cliente.clienDireccion}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef> Fecha Alta </th>
+            <td mat-cell *matCellDef="let cliente"> {{cliente.clienFechaAlta}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let cliente">
+                <span class="material-icons editButton" (click)="editar(cliente.clienId)">create</span>
+                <span class="material-icons deleteButton" (click)="eliminar(cliente.clienId)">delete</span>
+            </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+    </table>
+
+    <mat-toolbar>
+        <mat-toolbar-row>
+            <button mat-raised-button (click)="agregar()" class="saveButton">Agregar Cliente</button>
+            <span class="spacer"></span>
+            <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons></mat-paginator>
+        </mat-toolbar-row>
+    </mat-toolbar>
+</div>
+
+<div *ngIf="formularioOpen">
+    <form [formGroup]="form" class="formContainer">
+        <div>
+            <div class="formRow">
+                <label>Id: </label>
+                <ul>
+                    <li *ngIf="this.form.value.clienId">{{this.form.value.clienId}}</li>
+                    <li *ngIf="!this.form.value.clienId">Id aun no inicializado</li>
+                </ul>
+            </div>
+
+            <div class="formRow">
+                <label>Fecha de Alta</label>
+                <ul>
+                    <li *ngIf="this.form.value.clienFechaAlta">{{this.form.value.clienFechaAlta}}</li>
+                    <li *ngIf="!this.form.value.clienFechaAlta">Fecha aun no inicializada</li>
+                </ul>
+            </div>
+        </div>
+
+        <br>
+        <div >
+            <div class="formRow">
+                <mat-form-field appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="clienNombre" required>
+                    <mat-error>El campo no puede ser vacio</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="formRow">
+                <mat-form-field appearance="outline">
+                    <mat-label>Direccion</mat-label>
+                    <input matInput formControlName="clienDireccion" required>
+                    <mat-error>El campo no puede ser vacio</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    
+        <div>
+            <button mat-raised-button class="saveButton">Guardar</button>
+            <button mat-raised-button class="cancelButton" (click)="cancelar()">Cancelar</button>
+        </div>
+    </form>
+</div>
+
