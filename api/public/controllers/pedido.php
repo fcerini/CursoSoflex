@@ -3,7 +3,7 @@ $app->get('/pedido', function ($request, $response, $args) {
 
     $db = SQLSRV::connect();
     $stmt = sqlsrv_query($db,"SELECT pediId
-                                    ,pediFecha
+                                    ,CONVERT(VARCHAR, pediFecha, 126) pediFecha
                                     ,pediClienId
                                     ,pediBorrado
                                     ,CONVERT(VARCHAR, pediFechaAlta, 126) pediFechaAlta
@@ -62,7 +62,9 @@ $app->delete('/pedido/{id}', function ($request, $response, $args) {
 $app->put('/pedido/{id}', function ($request, $response, $args) {
 
     $id = $args['id'];
-    $data= json_decode($request->getParsedBody()['data'], true);
+    $input = file_get_contents("php://input");
+    $data = json_decode($input, true);
+    $params = array( $data["pediFecha"], $data["pediClienId"], $data["pediBorrado"]);
 
     $db = SQLSRV::connect();
     $stmt = sqlsrv_query($db,"UPDATE dbo.Pedido 
@@ -70,9 +72,9 @@ $app->put('/pedido/{id}', function ($request, $response, $args) {
                                     pediClienId = ?,
                                     pediBorrado = ?
                                 WHERE pediId = ?", [
-                                    $data['pediFecha'],
-                                    $data['pediClienId'],
-                                    $data['pediBorrado'],
+                                    $params[0],
+                                    $params[1],
+                                    $params[2],
                                     $id ]); 
 
     if($stmt === false) {
@@ -99,7 +101,9 @@ $app->put('/pedido/{id}', function ($request, $response, $args) {
 
 $app->post('/pedido', function ($request, $response, $args) {
 
-    $data= json_decode($request->getParsedBody()['data'], true);
+    $input = file_get_contents("php://input");
+    $data = json_decode($input, true);
+    $params = array( $data["pediFecha"], $data["pediClienId"]);
 
     $db = SQLSRV::connect();
     $stmt = sqlsrv_query($db,"INSERT INTO dbo.Pedido
@@ -111,10 +115,7 @@ $app->post('/pedido', function ($request, $response, $args) {
                         
                             SELECT SCOPE_IDENTITY() pediId
                                 ,CONVERT(VARCHAR, GETDATE(), 126) pediFechaAlta",
-                        [
-                            $data['pediFecha'],
-                            $data['pediClienId']
-                        ]);
+                        $params);
 
     if($stmt === false) {
         SQLSRV::error(500, 'Error interno del servidor', $db);
@@ -129,6 +130,7 @@ $app->post('/pedido', function ($request, $response, $args) {
     $results= $data;
     $results["pediId"] = $row["pediId"];
     $results["pediFechaAlta"] = $row["pediFechaAlta"];
+    $results["pediBorrado"] = 0;
 
     sqlsrv_free_stmt($stmt);
     SQLSRV::close($db);

@@ -1,4 +1,70 @@
-/* You can add global styles to this file, and also import other style files */
-
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+div.mat-elevation-z8{
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table {
+    width: 100%;
+    /*table-layout: fixed;*/
+}
+
+.formContainer{
+    width: 75%;
+    margin: auto;
+    text-align: center;
+}
+
+.mat-toolbar-row{ 
+    justify-content: space-between; 
+    background-color: white;
+}
+
+.formRow{
+    text-align: left;
+    display: inline-block;
+    margin: 1em;
+}
+
+.saveButton{
+    /*En caso de modificar el color verde, modificarlo tambien en el edit*/
+    background-color: rgb(33, 199, 33);
+    color: white;
+    margin: 10px;
+    margin-right: 20px !important;
+}
+
+.backButton{
+    background-color: rgb(224, 165, 54);
+    color:white;
+    margin: 10px;
+}
+
+.cancelButton{
+    background-color: red;
+    color:white;
+    margin: 10px;
+}
+
+.editButton{
+    color:rgb(33, 199, 33);
+}
+
+.deleteButton{
+    color:red;
+}
+
+.midButton{
+    text-align: center;
+    margin-top: 20px;
+    position: relative;
+    
+}
+
+.subTabla{
+    margin-top: 30px;
+    margin-bottom: 20px;
+}

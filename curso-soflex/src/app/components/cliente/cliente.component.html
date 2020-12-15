@@ -1,4 +1,4 @@
-<div *ngIf="!formularioOpen" class="mat-elevation-z8">
+<div [hidden]="formularioOpen" class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef> ID </th>
@@ -17,14 +17,14 @@
     
         <ng-container matColumnDef="fecha">
             <th mat-header-cell *matHeaderCellDef> Fecha Alta </th>
-            <td mat-cell *matCellDef="let cliente"> {{cliente.clienFechaAlta}} </td>
+            <td mat-cell *matCellDef="let cliente"> {{cliente.clienFechaAlta | date: 'dd-LL-yyyy'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="acciones">
             <th mat-header-cell *matHeaderCellDef> Acciones </th>
             <td mat-cell *matCellDef="let cliente">
-                <span class="material-icons editButton" (click)="editar(cliente.clienId)">create</span>
-                <span class="material-icons deleteButton" (click)="eliminar(cliente.clienId)">delete</span>
+                <span class="material-icons editButton" (click)="editar(cliente)">create</span>
+                <span class="material-icons deleteButton" (click)="eliminar(cliente)">delete</span>
             </td>
         </ng-container>
     
@@ -55,7 +55,7 @@
             <div class="formRow">
                 <label>Fecha de Alta</label>
                 <ul>
-                    <li *ngIf="this.form.value.clienFechaAlta">{{this.form.value.clienFechaAlta}}</li>
+                    <li *ngIf="this.form.value.clienFechaAlta">{{this.form.value.clienFechaAlta | date: 'dd-LL-yyyy'}}</li>
                     <li *ngIf="!this.form.value.clienFechaAlta">Fecha aun no inicializada</li>
                 </ul>
             </div>
@@ -81,7 +81,7 @@
         </div>
     
         <div>
-            <button mat-raised-button class="saveButton">Guardar</button>
+            <button mat-raised-button class="saveButton" (click)="guardar()">Guardar</button>
             <button mat-raised-button class="cancelButton" (click)="cancelar()">Cancelar</button>
         </div>
     </form>

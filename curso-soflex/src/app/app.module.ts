@@ -10,6 +10,7 @@ import { ClienteComponent } from './components/cliente/cliente.component';
 import { ProductoComponent } from './components/producto/producto.component';
 import { PedidoComponent } from './components/pedido/pedido.component';
 import { DetallePedidoComponent } from './components/detalle-pedido/detalle-pedido.component';
+import { ConfirmacionComponent } from './components/shared/confirmacion';
 
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -17,7 +18,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,8 @@ import { MatButtonModule } from '@angular/material/button';
     ClienteComponent,
     ProductoComponent,
     PedidoComponent,
-    DetallePedidoComponent
+    DetallePedidoComponent,
+    ConfirmacionComponent
   ],
   imports: [
     BrowserModule,
@@ -39,9 +44,16 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatDialogModule
   ],
-  providers: [],
+  providers: [
+    MatDatepickerModule
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

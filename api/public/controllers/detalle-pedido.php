@@ -10,6 +10,7 @@ $app->get('/detalle-pedido', function ($request, $response, $args) {
                                     ,detaBorrado
                                     ,CONVERT(VARCHAR, detaFechaAlta, 126) detaFechaAlta
                                     ,prodDescripcion
+                                    ,prodPrecio
                                     FROM dbo.PedidoDetalle
                                     LEFT OUTER JOIN dbo.Producto ON detaProdId = prodId
                                     WHERE detaBorrado = 0");
@@ -46,6 +47,7 @@ $app->get('/detalle-pedido/{id}', function ($request, $response, $args) {
                                     ,detaBorrado
                                     ,CONVERT(VARCHAR, detaFechaAlta, 126) detaFechaAlta
                                     ,prodDescripcion
+                                    ,prodPrecio
                                     FROM dbo.PedidoDetalle
                                     LEFT OUTER JOIN dbo.Producto ON detaProdId = prodId
                                     WHERE detaBorrado = 0 AND detaPediId = ?", [$id]);
@@ -100,7 +102,9 @@ $app->delete('/detalle-pedido/{id}', function ($request, $response, $args) {
 $app->put('/detalle-pedido/{id}', function ($request, $response, $args) {
 
     $id = $args['id'];
-    $data= json_decode($request->getParsedBody()['data'], true);
+    $input = file_get_contents("php://input");
+    $data = json_decode($input, true);
+    $params = array($data["detaPediId"], $data["detaProdId"], $data["detaCantidad"], $data["detaPrecio"], $data["detaBorrado"]);
 
     $db = SQLSRV::connect();
     $stmt = sqlsrv_query($db,"UPDATE dbo.PedidoDetalle 
@@ -110,11 +114,11 @@ $app->put('/detalle-pedido/{id}', function ($request, $response, $args) {
                                     detaPrecio = ?,
                                     detaBorrado = ?
                                 WHERE detaId = ?", [
-                                    $data['detaPediId'],
-                                    $data['detaProdId'],
-                                    $data['detaCantidad'],
-                                    $data['detaPrecio'],
-                                    $data['detaBorrado'],
+                                    $params[0],
+                                    $params[1],
+                                    $params[2],
+                                    $params[3],
+                                    $params[3],
                                     $id ]); 
 
     if($stmt === false) {
@@ -141,7 +145,9 @@ $app->put('/detalle-pedido/{id}', function ($request, $response, $args) {
 
 $app->post('/detalle-pedido', function ($request, $response, $args) {
 
-    $data= json_decode($request->getParsedBody()['data'], true);
+    $input = file_get_contents("php://input");
+    $data = json_decode($input, true);
+    $params = array($data["detaPediId"], $data["detaProdId"], $data["detaCantidad"], $data["detaPrecio"]);
 
     $db = SQLSRV::connect();
     $stmt = sqlsrv_query($db,"INSERT INTO dbo.PedidoDetalle
@@ -155,12 +161,7 @@ $app->post('/detalle-pedido', function ($request, $response, $args) {
                         
                             SELECT SCOPE_IDENTITY() detaId
                                 ,CONVERT(VARCHAR, GETDATE(), 126) detaFechaAlta",
-                        [
-                            $data['detaPediId'],
-                            $data['detaProdId'],
-                            $data['detaCantidad'],
-                            $data['detaPrecio']
-                        ]);
+                        $params);
 
     if($stmt === false) {
         SQLSRV::error(500, 'Error interno del servidor', $db);
@@ -175,6 +176,7 @@ $app->post('/detalle-pedido', function ($request, $response, $args) {
     $results= $data;
     $results["detaId"] = $row["detaId"];
     $results["detaFechaAlta"] = $row["detaFechaAlta"];
+    $results["detaBorrado"] = 0;
 
     sqlsrv_free_stmt($stmt);
     SQLSRV::close($db);

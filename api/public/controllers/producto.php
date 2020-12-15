@@ -60,7 +60,9 @@ $app->delete('/producto/{id}', function ($request, $response, $args) {
 $app->put('/producto/{id}', function ($request, $response, $args) {
 
     $id = $args['id'];
-    $data= json_decode($request->getParsedBody()['data'], true);
+    $input = file_get_contents("php://input");
+    $data = json_decode($input, true);
+    $params = array( $data["prodDescripcion"], $data["prodPrecio"], $data["prodBorrado"]);
 
     $db = SQLSRV::connect();
     $stmt = sqlsrv_query($db,"UPDATE dbo.Producto 
@@ -68,9 +70,9 @@ $app->put('/producto/{id}', function ($request, $response, $args) {
                                     prodPrecio = ?,
                                     prodBorrado = ?
                                 WHERE prodId = ?", [
-                                    $data['prodDescripcion'],
-                                    $data['prodPrecio'],
-                                    $data['prodBorrado'],
+                                    $params[0],
+                                    $params[1],
+                                    $params[2],
                                     $id ]); 
 
     if($stmt === false) {
@@ -97,7 +99,9 @@ $app->put('/producto/{id}', function ($request, $response, $args) {
 
 $app->post('/producto', function ($request, $response, $args) {
 
-    $data= json_decode($request->getParsedBody()['data'], true);
+    $input = file_get_contents("php://input");
+    $data = json_decode($input, true);
+    $params = array( $data["prodDescripcion"], $data["prodPrecio"]);
 
     $db = SQLSRV::connect();
     $stmt = sqlsrv_query($db,"INSERT INTO dbo.Producto
@@ -109,10 +113,7 @@ $app->post('/producto', function ($request, $response, $args) {
                         
                             SELECT SCOPE_IDENTITY() prodId
                                 ,CONVERT(VARCHAR, GETDATE(), 126) prodFechaAlta",
-                        [
-                            $data['prodDescripcion'],
-                            $data['prodPrecio']
-                        ]);
+                        $params);
 
     if($stmt === false) {
         SQLSRV::error(500, 'Error interno del servidor', $db);
@@ -127,6 +128,7 @@ $app->post('/producto', function ($request, $response, $args) {
     $results= $data;
     $results["prodId"] = $row["prodId"];
     $results["prodFechaAlta"] = $row["prodFechaAlta"];
+    $results["prodBorrado"] = 0;
 
     sqlsrv_free_stmt($stmt);
     SQLSRV::close($db);
