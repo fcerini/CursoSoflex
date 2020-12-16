@@ -59,16 +59,16 @@
             <div class="formRow">
                 <label>Id: </label>
                 <ul>
-                    <li *ngIf="this.formDetalle.value.pediId">{{this.formDetalle.value.pediId}}</li>
-                    <li *ngIf="!this.formDetalle.value.pediId">Id aun no inicializado</li>
+                    <li *ngIf="this.formDetalle.value.detaId">{{this.formDetalle.value.detaId}}</li>
+                    <li *ngIf="!this.formDetalle.value.detaId">Id aun no inicializado</li>
                 </ul>
             </div>
 
             <div class="formRow">
                 <label>Fecha de Alta</label>
                 <ul>
-                    <li *ngIf="this.formDetalle.value.pediFechaAlta">{{this.formDetalle.value.pediFechaAlta | date: 'dd-LL-yyyy'}}</li>
-                    <li *ngIf="!this.formDetalle.value.pediFechaAlta">Fecha aun no inicializada</li>
+                    <li *ngIf="this.formDetalle.value.detaFechaAlta">{{this.formDetalle.value.detaFechaAlta | date: 'dd-LL-yyyy'}}</li>
+                    <li *ngIf="!this.formDetalle.value.detaFechaAlta">Fecha aun no inicializada</li>
                 </ul>
             </div>
         </div>
