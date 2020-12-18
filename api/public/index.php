@@ -41,6 +41,7 @@ include_once 'controllers/cliente.php';
 include_once 'controllers/producto.php';
 include_once 'controllers/pedido.php';
 include_once 'controllers/detalle-pedido.php';
+include_once 'controllers/login.php';
 
 
 $app->get('/', function (Request $request, Response $response, $args) {

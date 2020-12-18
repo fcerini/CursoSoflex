@@ -68,3 +68,26 @@ table {
     margin-top: 30px;
     margin-bottom: 20px;
 }
+
+.login{
+    width:50%;
+    text-align: center;
+    margin: auto;
+    margin-top: 25px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.form-field{
+    padding: 10px;
+    text-align: left;
+}
+
+.inputField{
+    float:right;
+    margin-right: 50%;
+}
+
+.form-buttons{
+    margin-top:15px;
+}

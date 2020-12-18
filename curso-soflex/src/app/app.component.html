@@ -3,6 +3,7 @@
   <span>Curso - Soflex</span>
   <div class="spacer"></div>
   <span>Noel Zapatero</span>
+  <span *ngIf="isLogged" style="padding-left: 10px" (click)="logout()">(Logout)</span>
   <div class="spacer"></div>
   <span>Realizado con Angular 11.0.3</span>
   <img width="40" alt="Angular Logo"
@@ -10,21 +11,28 @@
   />
 </div>
 
-<div class="card-container">
-  <a class="card" routerLink="/clientes">
-    <span class="material-icons">supervised_user_circle</span>    
-    <span>Clientes</span>
-  </a>
-
-  <a class="card" routerLink="/productos">
-    <span class="material-icons">store</span>
-    <span>Productos</span>
-  </a>
-
-  <a class="card" routerLink="/pedidos">
-    <span class="material-icons">shopping_cart</span>
-    <span>Pedidos</span>
-  </a>
+<div *ngIf="!isLogged">
+  <app-login (isLogged)="handleLogin($event)"></app-login>
 </div>
 
-<router-outlet></router-outlet>
+
+<div *ngIf="isLogged">
+  <div class="card-container">
+    <a class="card" routerLink="/clientes">
+      <span class="material-icons">supervised_user_circle</span>    
+      <span>Clientes</span>
+    </a>
+
+    <a class="card" routerLink="/productos">
+      <span class="material-icons">store</span>
+      <span>Productos</span>
+    </a>
+
+    <a class="card" routerLink="/pedidos">
+      <span class="material-icons">shopping_cart</span>
+      <span>Pedidos</span>
+    </a>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

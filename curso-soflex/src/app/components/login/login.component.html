@@ -1,0 +1,19 @@
+<div class="login">
+    <form [formGroup]="form" class="formContainer">
+        <fieldset>
+            <legend>Login</legend>
+            <div class="form-field">
+                <label>User:</label>
+                <input name="user" formControlName="user" class="inputField">
+            </div>
+            <div class="form-field">
+                <label>Password:</label>
+                <input name="password" formControlName="password" type="password" class="inputField">
+            </div>
+        </fieldset>
+        <mat-error *ngIf="errorLogin">El usuario o la contraseña son incorrectos</mat-error>
+        <div class="form-buttons">
+            <button mat-raised-button class="saveButton" (click)="login()">Login</button>
+        </div>
+    </form>
+</div>

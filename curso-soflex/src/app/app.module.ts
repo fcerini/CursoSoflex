@@ -22,6 +22,7 @@ import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     ProductoComponent,
     PedidoComponent,
     DetallePedidoComponent,
-    ConfirmacionComponent
+    ConfirmacionComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
